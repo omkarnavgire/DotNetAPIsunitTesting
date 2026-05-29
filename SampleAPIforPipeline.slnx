@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SampleAPIforPipeline/SampleAPIforPipeline.csproj" />
+  <Project Path="UnitTest_projectforApi/UnitTest_projectforApis.csproj" />
+</Solution>
