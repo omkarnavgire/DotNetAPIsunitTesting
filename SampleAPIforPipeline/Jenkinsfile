@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Restore') {
+            steps {
+                bat "dotnet restore"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat "dotnet build --configuration Release"
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+
+                bat "dotnet test --no-restore --configuration Release"
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Build failed.'
+        }
+    }
+}
