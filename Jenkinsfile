@@ -32,13 +32,13 @@ pipeline {
                 }
             }
         }
-        stage("Deployment") {
-            steps {
-                bat "del /q /s C:\\inetpub\\wwwroot\\coreapis\\*"
-                bat "xcopy /E /Y /I publish\\* C:\\inetpub\\wwwroot\\coreapis\\"
-            }
-        }
-    }
+    //     stage("Deployment") {
+    //         steps {
+    //             bat "del /q /s C:\\inetpub\\wwwroot\\coreapis\\*"
+    //             bat "xcopy /E /Y /I publish\\* C:\\inetpub\\wwwroot\\coreapis\\"
+    //         }
+    //     }
+    // }
     post {
         success {
             echo "Build, Test and Publish stages completed successfully."
