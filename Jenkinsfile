@@ -1,13 +1,13 @@
 pipeline {
     agent any
     environment {
-        DOTNET_CLI_HOME="C:\\Program Files\\dotnet"
+        DOTNET_CLI_HOME = "C:\\Program Files\\dotnet"
     }
     stages {
         stage("Checkout") {
-         steps {
-               checkout scm
-         }
+            steps {
+                checkout scm
+            }
         }
         stage("Restore") {
             steps {
@@ -23,7 +23,6 @@ pipeline {
             steps {
                 bat "dotnet test --no-restore --configuration Release"
             }
-
         }
         stage("Publish") {
             steps {
@@ -32,13 +31,7 @@ pipeline {
                 }
             }
         }
-    //     stage("Deployment") {
-    //         steps {
-    //             bat "del /q /s C:\\inetpub\\wwwroot\\coreapis\\*"
-    //             bat "xcopy /E /Y /I publish\\* C:\\inetpub\\wwwroot\\coreapis\\"
-    //         }
-    //     }
-    // }
+    }
     post {
         success {
             echo "Build, Test and Publish stages completed successfully."
