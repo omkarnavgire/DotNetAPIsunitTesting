@@ -1,43 +1,47 @@
 pipeline {
     agent any
-
+    environment {
+        DOTNET_CLI_HOME="C:\\Program Files\\dotnet"
+    }
     stages {
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
+        stage("Checkout") {
+         steps {
+               checkout scm
+         }
         }
-
-        stage('Restore') {
+        stage("Restore") {
             steps {
                 bat "dotnet restore"
             }
         }
-
-        stage('Build') {
+        stage("Build") {
             steps {
                 bat "dotnet build --configuration Release"
             }
         }
-
-        stage('Test') {
+        stage("Test") {
             steps {
-                echo 'Running unit tests...'
-
                 bat "dotnet test --no-restore --configuration Release"
+            }
+
+        }
+        stage("Publish") {
+            steps {
+                script {
+                    bat "dotnet publish --no-restore --configuration Release --output .\\publish"
+                }
+            }
+        }
+        stage("Deployment") {
+            steps {
+                bat "del /q /s C:\\inetpub\\wwwroot\\coreapis\\*"
+                bat "xcopy /E /Y /I publish\\* C:\\inetpub\\wwwroot\\coreapis\\"
             }
         }
     }
-
     post {
-
         success {
-            echo 'Pipeline completed successfully!'
-        }
-
-        failure {
-            echo 'Build failed.'
+            echo "Build, Test and Publish stages completed successfully."
         }
     }
 }
